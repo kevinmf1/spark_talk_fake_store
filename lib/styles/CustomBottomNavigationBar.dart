@@ -3,7 +3,10 @@ import 'package:spark_talk_fake_store/styles/AppColors.dart';
 import 'package:spark_talk_fake_store/styles/AppTextStyles.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
-  const CustomBottomNavigationBar({super.key});
+  final int currentIndex;
+  final ValueChanged<int> onTap;
+
+  const CustomBottomNavigationBar({super.key, required this.currentIndex, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +24,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
         showUnselectedLabels: true,
         selectedLabelStyle: AppTextStyles.poppinsBold16,
         unselectedLabelStyle: AppTextStyles.poppinsRegular16,
+        onTap: onTap,
+        currentIndex: currentIndex,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(

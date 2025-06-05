@@ -32,6 +32,9 @@ class CardClothes extends StatelessWidget {
                       productDescription: product['description'],
                       productPrice: double.parse(product['price'].toString()),
                       productImage: product['image'],
+                      productCategory: product['category'],
+                      productRating: product['rating']['rate'],
+                      productRatingCount: product['rating']['count'],
                     ),
               ),
             );

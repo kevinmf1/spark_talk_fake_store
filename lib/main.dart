@@ -3,9 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:spark_talk_fake_store/screen/card_clothes.dart';
+import 'package:spark_talk_fake_store/screen/cart_page.dart';
+import 'package:spark_talk_fake_store/screen/categories_page.dart';
+import 'package:spark_talk_fake_store/screen/profile_page.dart';
 import 'package:spark_talk_fake_store/styles/AppColors.dart';
 import 'package:spark_talk_fake_store/styles/AppTextStyles.dart';
 import 'package:spark_talk_fake_store/styles/CustomBottomNavigationBar.dart';
+import 'package:spark_talk_fake_store/widget/top_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +32,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
   final String title;
 
   @override
@@ -38,6 +41,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<dynamic> products = [];
   bool isLoading = true;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -67,56 +71,51 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget body;
+    if (_selectedIndex == 0) {
+      // Home page with topbar and cards
+      body = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TopBar(title: "Awesome Store"),
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0, left: 16.0),
+            child: Text(
+              'All Products',
+              style: AppTextStyles.poppinsBold18.copyWith(
+                color: AppColors.greyText,
+              ),
+            ),
+          ),
+          Expanded(
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : CardClothes(products: products),
+          ),
+        ],
+      );
+    } else if (_selectedIndex == 1) {
+      body = const CategoriesPage();
+    } else if (_selectedIndex == 2) {
+      body = const CartPage();
+    } else if (_selectedIndex == 3) {
+      body = const ProfilePage();
+    } else {
+      body = const SizedBox();
+    }
+
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(top: 24.0),
-              decoration: const BoxDecoration(
-                color: AppColors.white,
-                border: Border(
-                  top: BorderSide(color: AppColors.greyBorder, width: 1.0),
-                  bottom: BorderSide(color: AppColors.greyBorder, width: 1.0),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Spacer(),
-                    const Text(
-                      'Awesome Store',
-                      style: AppTextStyles.poppinsBold18,
-                    ),
-                    Spacer(),
-                    const Icon(Icons.shopping_cart),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0, left: 16.0),
-              child: Text(
-                'All Products',
-                style: AppTextStyles.poppinsBold18.copyWith(
-                  color: AppColors.greyText,
-                ),
-              ),
-            ),
-            Expanded(
-              child:
-                  isLoading
-                      ? const Center(child: CircularProgressIndicator())
-                      : CardClothes(products: products),
-            ),
-          ],
-        ),
+      body: SafeArea(child: body),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
-      bottomNavigationBar: const CustomBottomNavigationBar(),
     );
   }
+
 }

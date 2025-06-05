@@ -63,4 +63,25 @@ class AppTextStyles {
     fontSize: 24,
     color: Colors.black,
   );
+
+  static const TextStyle poppinsLight16 = TextStyle(
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w300,
+    fontSize: 16,
+    color: Colors.black,
+  );
+
+  static const TextStyle poppinsLight18 = TextStyle(
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w300,
+    fontSize: 18,
+    color: Colors.black,
+  );
+
+  static const TextStyle poppinsLight24 = TextStyle(
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w300,
+    fontSize: 24,
+    color: Colors.black,
+  );
 }
