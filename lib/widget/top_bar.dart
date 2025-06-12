@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spark_talk_fake_store/styles/AppColors.dart';
 import 'package:spark_talk_fake_store/styles/AppTextStyles.dart';
 
@@ -6,12 +7,14 @@ class TopBar extends StatelessWidget {
   final String title;
   final Widget? trailing;
   final bool showBackButton;
+  final bool showCartIcon;
 
   const TopBar({
     super.key,
     required this.title,
     this.trailing,
     this.showBackButton = false,
+    this.showCartIcon = true
   });
 
   @override
@@ -36,7 +39,7 @@ class TopBar extends StatelessWidget {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   icon: const Icon(Icons.arrow_back),
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () => context.pop(),
                   constraints: const BoxConstraints(),
                 ),
               )
@@ -54,7 +57,12 @@ class TopBar extends StatelessWidget {
                 ),
               ),
             ),
-            trailing ?? const Icon(Icons.shopping_cart),
+            if(trailing != null)
+              trailing!
+            else if (showCartIcon)
+              const Icon(Icons.shopping_cart)
+            else
+              const SizedBox(width: 24)
           ],
         ),
       ),

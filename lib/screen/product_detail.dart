@@ -5,6 +5,8 @@ import 'package:spark_talk_fake_store/styles/AppTextStyles.dart';
 import 'package:spark_talk_fake_store/utils/string_extensions.dart';
 import 'package:spark_talk_fake_store/widget/top_bar.dart';
 
+import '../utils/cart_manager.dart';
+
 class ProductDetail extends StatelessWidget {
   final String productName;
   final String productDescription;
@@ -167,18 +169,42 @@ class ProductDetail extends StatelessWidget {
           height: 48,
           child: ElevatedButton(
             onPressed: () {
-              // Add to cart logic
+              final cartManager = CartManager();
+              final productData = {
+                'title': productName,
+                'description': productDescription,
+                'category': productCategory,
+                'price': productPrice,
+                'image': productImage,
+                'rating': {
+                  'rate': productRating,
+                  'count': productRatingCount,
+                },
+              };
+
+              final alreadyInCart = cartManager.cartItems.any((item) => item['title'] == productName);
+
+              if (alreadyInCart) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Product is already in the cart!')),
+                );
+              } else {
+                cartManager.addToCart(productData);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Added to cart!')),
+                );
+              }
             },
-            child: Text(
-              'Add to Cart',
-              style: AppTextStyles.poppinsBold16.copyWith(color: Colors.white),
-            ),
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xFF2563EB), // biru
               textStyle: AppTextStyles.poppinsBold18,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8), // sudut 8
               ),
+            ),
+            child: Text(
+              'Add to Cart',
+              style: AppTextStyles.poppinsBold16.copyWith(color: Colors.white),
             ),
           ),
         ),

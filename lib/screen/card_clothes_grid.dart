@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:spark_talk_fake_store/screen/product_detail.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spark_talk_fake_store/styles/AppColors.dart';
 import 'package:spark_talk_fake_store/styles/AppTextStyles.dart';
 
-class CardClothes extends StatelessWidget {
+class CardClothesGrid extends StatelessWidget {
   final List<dynamic> products;
 
-  const CardClothes({super.key, required this.products});
+  const CardClothesGrid({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
@@ -23,21 +23,25 @@ class CardClothes extends StatelessWidget {
         final product = products[index];
         return InkWell(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder:
-                    (context) => ProductDetail(
-                      productName: product['title'],
-                      productDescription: product['description'],
-                      productPrice: double.parse(product['price'].toString()),
-                      productImage: product['image'],
-                      productCategory: product['category'],
-                      productRating: product['rating']['rate'],
-                      productRatingCount: product['rating']['count'],
-                    ),
-              ),
+            context.push(
+              '/product/${product['id']}',
+              extra: product,
             );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder:
+            //         (context) => ProductDetail(
+            //           productName: product['title'],
+            //           productDescription: product['description'],
+            //           productPrice: double.parse(product['price'].toString()),
+            //           productImage: product['image'],
+            //           productCategory: product['category'],
+            //           productRating: double.parse(product['rating']['rate'].toString()),
+            //           productRatingCount: product['rating']['count'],
+            //         ),
+            //   ),
+            // );
           },
           child: Card(
             color: AppColors.cardBackground,
