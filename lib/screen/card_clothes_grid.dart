@@ -27,21 +27,6 @@ class CardClothesGrid extends StatelessWidget {
               '/product/${product['id']}',
               extra: product,
             );
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder:
-            //         (context) => ProductDetail(
-            //           productName: product['title'],
-            //           productDescription: product['description'],
-            //           productPrice: double.parse(product['price'].toString()),
-            //           productImage: product['image'],
-            //           productCategory: product['category'],
-            //           productRating: double.parse(product['rating']['rate'].toString()),
-            //           productRatingCount: product['rating']['count'],
-            //         ),
-            //   ),
-            // );
           },
           child: Card(
             color: AppColors.cardBackground,

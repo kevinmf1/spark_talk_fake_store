@@ -17,39 +17,45 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: '/',
           name: 'home',
-          builder: (context, state) => MyHomePage(),
+          pageBuilder:
+              (context, state) => NoTransitionPage(child: MyHomePage()),
         ),
         GoRoute(
           path: '/categories',
           name: 'categories',
-          builder: (context, state) => const CategoriesPage(),
+          pageBuilder:
+              (context, state) =>
+                  const NoTransitionPage(child: CategoriesPage()),
         ),
         GoRoute(
           path: '/cart',
           name: 'cart',
-          builder: (context, state) => const CartPage(),
+          pageBuilder:
+              (context, state) => const NoTransitionPage(child: CartPage()),
         ),
         GoRoute(
           path: '/profile',
           name: 'profile',
-          builder: (context, state) => const ProfilePage(),
+          pageBuilder:
+              (context, state) => const NoTransitionPage(child: ProfilePage()),
         ),
       ],
     ),
     GoRoute(
       path: '/product/:id',
       name: 'productDetail',
-      builder: (context, state) {
-        // Pass product data via state.extra or fetch by id
+      pageBuilder: (context, state) {
         final product = state.extra as Map<String, dynamic>;
-        return ProductDetail(
-          productName: product['title'],
-          productDescription: product['description'],
-          productPrice: (product['price'] as num).toDouble(),
-          productImage: product['image'],
-          productCategory: product['category'],
-          productRating: (product['rating']['rate'] as num).toDouble(),
-          productRatingCount: product['rating']['count'],
+        return NoTransitionPage(
+          child: ProductDetail(
+            productName: product['title'],
+            productDescription: product['description'],
+            productPrice: (product['price'] as num).toDouble(),
+            productImage: product['image'],
+            productCategory: product['category'],
+            productRating: (product['rating']['rate'] as num).toDouble(),
+            productRatingCount: product['rating']['count'],
+          ),
         );
       },
     ),
@@ -58,6 +64,7 @@ final GoRouter router = GoRouter(
 
 class MainScaffold extends StatefulWidget {
   final Widget child;
+
   const MainScaffold({super.key, required this.child});
 
   static const tabs = ['/', '/categories', '/cart', '/profile'];
