@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:spark_talk_fake_store/screen/SubtotalItem.dart';
 import 'package:spark_talk_fake_store/widget/top_bar.dart';
+import '../styles/AppTextStyles.dart';
 import '../utils/cart_manager.dart';
 import 'card_clothes_vertical.dart';
 
@@ -12,6 +15,11 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+
+  void _handleBack(BuildContext context) {
+    context.go('/');
+  }
+
   @override
   Widget build(BuildContext context) {
     final cartItems = CartManager().cartItems;
@@ -22,11 +30,11 @@ class _CartPageState extends State<CartPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TopBar(title: 'Cart', showBackButton: true, showCartIcon: false),
+            TopBar(title: 'Cart', showBackButton: true, showCartIcon: false, onBack: () => _handleBack(context)),
             Expanded(
               child:
                   cartItems.isEmpty
-                      ? const Center(child: Text('Cart is empty'))
+                      ? const Center(child: Text('Cart is empty', style: AppTextStyles.poppinsBold16))
                       : ListView.builder(
                         itemCount: cartItems.length,
                         itemBuilder: (context, index) {
@@ -58,6 +66,7 @@ class _CartPageState extends State<CartPage> {
                         },
                       ),
             ),
+            SubtotalItem(cartItems: cartItems)
           ],
         ),
       ),

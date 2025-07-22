@@ -8,13 +8,15 @@ class TopBar extends StatelessWidget {
   final Widget? trailing;
   final bool showBackButton;
   final bool showCartIcon;
+  final VoidCallback? onBack;
 
   const TopBar({
     super.key,
     required this.title,
     this.trailing,
     this.showBackButton = false,
-    this.showCartIcon = true
+    this.showCartIcon = true,
+    this.onBack
   });
 
   @override
@@ -39,7 +41,7 @@ class TopBar extends StatelessWidget {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   icon: const Icon(Icons.arrow_back),
-                  onPressed: () => context.pop(),
+                  onPressed: onBack ?? () => context.pop(),
                   constraints: const BoxConstraints(),
                 ),
               )
@@ -50,19 +52,24 @@ class TopBar extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 8.0, right: 12.0),
                 child: Text(
                   title,
-                  style: AppTextStyles.poppinsBold18,
+                  style: AppTextStyles.poppinsBold18.copyWith(color: Color(0xFF333446)),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   textAlign: TextAlign.center,
                 ),
               ),
             ),
-            if(trailing != null)
+            if (trailing != null)
               trailing!
             else if (showCartIcon)
-              const Icon(Icons.shopping_cart)
+              // Icon(Icons.shopping_cart)
+              GestureDetector(
+                onTap: () => context.go('/cart'),
+                child: Icon(Icons.shopping_cart),
+              )
+            // IconButton(padding: EdgeInsets.zero, constraints: const BoxConstraints(), onPressed: () => context.go('/cart'), icon: Icon(Icons.shopping_cart), tooltip: 'Cart')
             else
-              const SizedBox(width: 24)
+              const SizedBox(width: 24),
           ],
         ),
       ),
